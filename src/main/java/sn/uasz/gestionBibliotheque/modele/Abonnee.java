@@ -1,7 +1,6 @@
 package sn.uasz.gestionBibliotheque.modele;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "Abonnee")
 public class Abonnee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long numeroAbonnement;
     private String prenom;
     private String nom;
