@@ -6,16 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Abonnee")
-public class Abonnee {
-    private Long numeroAbonnement;
+@Table(name = "Bibliothecaire")
+public class Bibliothecaire {
+    private Long id;
     private String prenom;
     private String nom;
-    private String status;
-    private String institutionRattachement;
+    private Date dateRecrutement;
+    private String adresse;
     private String email;
 }

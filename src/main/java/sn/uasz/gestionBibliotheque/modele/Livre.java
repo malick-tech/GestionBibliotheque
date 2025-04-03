@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Abonnee")
-public class Abonnee {
-    private Long numeroAbonnement;
-    private String prenom;
-    private String nom;
-    private String status;
-    private String institutionRattachement;
-    private String email;
+@Table(name = "Livre")
+public class Livre {
+    private Long id;
+    private String titre;
+    private String auteurs;
+    private int anneePublication;
+    private String domaine;
+    private String niveau;
 }
