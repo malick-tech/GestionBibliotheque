@@ -12,32 +12,25 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Livre")
-public class Livre {
+@Table(name = "Membres")
+public class Membre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String titre;
 
     @Column(nullable = false)
-    private String auteur;
+    private String prenom;
 
-    @Column(unique = true)
-    private String isbn;
+    @Column(nullable = false)
+    private String nom;
 
-    private String editeur;
+    @Column(unique = true, nullable = false)
+    private String email;
 
-    private int anneePublication;
+    private String telephone;
 
-    private int quantite;
+    private String adresse;
 
-    private int quantiteDisponible;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Categorie categorie;
-
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "membre")
     private Set<Emprunts> loans = new HashSet<>();
 }
