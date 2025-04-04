@@ -32,5 +32,5 @@ public class Membre {
     private String adresse;
 
     @OneToMany(mappedBy = "membre")
-    private Set<Emprunts> loans = new HashSet<>();
+    private Set<Emprunts> emprunts = new HashSet<>();
 }

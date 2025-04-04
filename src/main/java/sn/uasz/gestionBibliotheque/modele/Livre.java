@@ -35,9 +35,9 @@ public class Livre {
     private int quantiteDisponible;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "book")
-    private Set<Emprunts> loans = new HashSet<>();
+    @OneToMany(mappedBy = "livre")
+    private Set<Emprunts> emprunts = new HashSet<>();
 }
