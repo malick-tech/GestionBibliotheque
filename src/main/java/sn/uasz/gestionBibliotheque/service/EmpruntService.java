@@ -1,6 +1,7 @@
 package sn.uasz.gestionBibliotheque.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.uasz.gestionBibliotheque.modele.Emprunts;
 import sn.uasz.gestionBibliotheque.modele.Livre;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class EmpruntService {
     private final EmpruntsRepository empruntRepository;
     private final LivreService livreService;
