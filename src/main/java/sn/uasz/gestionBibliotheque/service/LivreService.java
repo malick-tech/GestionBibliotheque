@@ -56,20 +56,20 @@ public class LivreService {
 
     public boolean isBookAvailable(Long livreId) {
         Optional<Livre> bookOpt = livreRepository.findById(livreId);
-        return bookOpt.filter(livre -> livre.getQuantite_disponible() > 0).isPresent();
+        return bookOpt.filter(livre -> livre.getQuantiteDisponible() > 0).isPresent();
     }
 
     public Livre decreaseAvailableQuantity(Livre livre) {
-        if (livre.getQuantite_disponible() > 0) {
-            livre.setQuantite_disponible(livre.getQuantite_disponible() - 1);
+        if (livre.getQuantiteDisponible() > 0) {
+            livre.setQuantiteDisponible(livre.getQuantiteDisponible() - 1);
             return livreRepository.save(livre);
         }
         throw new RuntimeException("Le livre n'est pas disponible");
     }
 
     public Livre increaseAvailableQuantity(Livre livre) {
-        if (livre.getQuantite_disponible() < livre.getQuantite()) {
-            livre.setQuantite_disponible(livre.getQuantite_disponible() + 1);
+        if (livre.getQuantiteDisponible() < livre.getQuantite()) {
+            livre.setQuantiteDisponible(livre.getQuantiteDisponible() + 1);
             return livreRepository.save(livre);
         }
         throw new RuntimeException("Erreur: la quantité disponible ne peut pas dépasser la quantité totale");
