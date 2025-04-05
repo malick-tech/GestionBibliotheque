@@ -27,23 +27,23 @@ public class LivreService {
     }
 
     public Optional<Livre> getBookByIsbn(String isbn) {
-        return livreRepository.findByIsbn(isbn);
+        return livreRepository.rechercheParIsbn(isbn);
     }
 
     public List<Livre> getBooksByTitle(String title) {
-        return livreRepository.findByTitle(title);
+        return livreRepository.rechercheParTitre(title);
     }
 
     public List<Livre> getBooksByAuthor(String author) {
-        return livreRepository.findByAuthor(author);
+        return livreRepository.rechercheParAuteur(author);
     }
 
     public List<Livre> getBooksByCategory(Categorie categorie) {
-        return livreRepository.findByCategory(categorie);
+        return livreRepository.rechercheParCategorie(categorie);
     }
 
     public List<Livre> getAvailableBooks() {
-        return livreRepository.findAvailableBooks();
+        return livreRepository.listerLivreDisponible();
     }
 
     public Livre saveBook(Livre livre) {
