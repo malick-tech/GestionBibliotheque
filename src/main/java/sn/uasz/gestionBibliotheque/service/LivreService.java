@@ -27,23 +27,23 @@ public class LivreService {
     }
 
     public Optional<Livre> getBookByIsbn(String isbn) {
-        return livreRepository.rechercheParIsbn(isbn);
+        return livreRepository.findByIsbn(isbn);
     }
 
     public List<Livre> getBooksByTitle(String title) {
-        return livreRepository.rechercheParTitre(title);
+        return livreRepository.findByTitre(title);
     }
 
     public List<Livre> getBooksByAuthor(String author) {
-        return livreRepository.rechercheParAuteur(author);
+        return livreRepository.findByAuteur(author);
     }
 
     public List<Livre> getBooksByCategory(Categorie categorie) {
-        return livreRepository.rechercheParCategorie(categorie);
+        return livreRepository.findByCategorie(categorie);
     }
 
     public List<Livre> getAvailableBooks() {
-        return livreRepository.listerLivreDisponible();
+        return livreRepository.findLivreDisponible();
     }
 
     public Livre saveBook(Livre livre) {
@@ -56,20 +56,20 @@ public class LivreService {
 
     public boolean isBookAvailable(Long livreId) {
         Optional<Livre> bookOpt = livreRepository.findById(livreId);
-        return bookOpt.filter(livre -> livre.getQuantiteDisponible() > 0).isPresent();
+        return bookOpt.filter(livre -> livre.getQuantite_disponible() > 0).isPresent();
     }
 
     public Livre decreaseAvailableQuantity(Livre livre) {
-        if (livre.getQuantiteDisponible() > 0) {
-            livre.setQuantiteDisponible(livre.getQuantiteDisponible() - 1);
+        if (livre.getQuantite_disponible() > 0) {
+            livre.setQuantite_disponible(livre.getQuantite_disponible() - 1);
             return livreRepository.save(livre);
         }
         throw new RuntimeException("Le livre n'est pas disponible");
     }
 
     public Livre increaseAvailableQuantity(Livre livre) {
-        if (livre.getQuantiteDisponible() < livre.getQuantite()) {
-            livre.setQuantiteDisponible(livre.getQuantiteDisponible() + 1);
+        if (livre.getQuantite_disponible() < livre.getQuantite()) {
+            livre.setQuantite_disponible(livre.getQuantite_disponible() + 1);
             return livreRepository.save(livre);
         }
         throw new RuntimeException("Erreur: la quantité disponible ne peut pas dépasser la quantité totale");

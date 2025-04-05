@@ -11,14 +11,14 @@ import java.util.Optional;
 
 @Repository
 public interface LivreRepository extends JpaRepository<Livre,Long> {
-    List<Livre> rechercheParTitre(String titre);
+    List<Livre> findByTitre(String titre);
 
-    List<Livre> rechercheParAuteur(String auteur);
+    List<Livre> findByAuteur(String auteur);
 
-    Optional<Livre> rechercheParIsbn(String isbn);
+    Optional<Livre> findByIsbn(String isbn);
 
-    List<Livre> rechercheParCategorie(Categorie category);
+    List<Livre> findByCategorie(Categorie category);
 
-    @Query("SELECT l FROM Livre l WHERE b.quantiteDisponible > 0")
-    List<Livre> listerLivreDisponible();
+    @Query("SELECT l FROM Livre l WHERE b.quantite_disponible > 0")
+    List<Livre> findLivreDisponible();
 }

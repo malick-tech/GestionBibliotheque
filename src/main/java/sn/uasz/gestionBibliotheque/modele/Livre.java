@@ -28,11 +28,11 @@ public class Livre {
 
     private String editeur;
 
-    private int anneePublication;
+    private int annee_publication;
 
     private int quantite;
 
-    private int quantiteDisponible;
+    private int quantite_disponible;
 
     @ManyToOne
     @JoinColumn(name = "categorie_id")

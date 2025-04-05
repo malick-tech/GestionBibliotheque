@@ -32,11 +32,11 @@ public class EmpruntService {
     }
 
     public List<Emprunts> getLoansByMember(Membre membre) {
-        return empruntRepository.findByMember(membre);
+        return empruntRepository.findByMembre(membre);
     }
 
     public List<Emprunts> getActiveLoans() {
-        return empruntRepository.findByIsReturnedFalse();
+        return empruntRepository.findByEstRetourneFalse();
     }
 
     public List<Emprunts> getOverdueLoans() {
@@ -44,7 +44,7 @@ public class EmpruntService {
     }
 
     public List<Emprunts> getActiveLoansByMember(Membre membre) {
-        return empruntRepository.findByMemberAndIsReturnedFalse(membre);
+        return empruntRepository.findByMembreAndEstRetourneFalse(membre);
     }
 
     @Transactional
@@ -82,6 +82,6 @@ public class EmpruntService {
     }
 
     public List<Emprunts> getLoansByDateRange(LocalDate startDate, LocalDate endDate) {
-        return empruntRepository.findByLoanDateBetween(startDate, endDate);
+        return empruntRepository.findByEstRetourneFalse();
     }
 }
