@@ -25,13 +25,15 @@ public class Emprunts {
     @JoinColumn(name = "membre_id", nullable = false)
     private Membre membre;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "dateEmprunt")
     private LocalDate dateEmprunt;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "dateEcheance")
     private LocalDate dateEcheance;
 
+    @Column(name = "dateRetour")
     private LocalDate dateRetour;
 
+    @Column(name = "estRetourne")
     private boolean estRetourne;
 }

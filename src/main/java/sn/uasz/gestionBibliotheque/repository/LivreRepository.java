@@ -19,6 +19,6 @@ public interface LivreRepository extends JpaRepository<Livre,Long> {
 
     List<Livre> findByCategorie(Categorie category);
 
-    @Query("SELECT l FROM Livre l WHERE b.quantite_disponible > 0")
+    @Query("SELECT l FROM Livre l WHERE l.quantiteDisponible > 0")
     List<Livre> findLivreDisponible();
 }

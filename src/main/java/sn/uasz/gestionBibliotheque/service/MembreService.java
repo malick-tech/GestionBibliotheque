@@ -26,11 +26,11 @@ public class MembreService {
     }
 
     public Optional<Membre> getMemberByEmail(String email) {
-        return membreRepository.rechercheParEmail(email);
+        return membreRepository.findByEmail(email);
     }
 
     public List<Membre> getMembersByName(String searchTerm) {
-        return membreRepository.rechercheParPrenomOuNom(searchTerm, searchTerm);
+        return membreRepository.findByPrenomOrNom(searchTerm, searchTerm);
     }
 
     public Membre saveMember(Membre member) {

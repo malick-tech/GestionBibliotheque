@@ -82,7 +82,7 @@ public class LivreController {
 
         // Initialise la quantité disponible à la quantité totale pour un nouveau livre
         if (livre.getId() == null) {
-            livre.setQuantite_disponible(livre.getQuantite());
+            livre.setQuantiteDisponible(livre.getQuantite());
         }
 
         Livre savedBook = livreService.saveBook(livre);
@@ -108,7 +108,7 @@ public class LivreController {
         // Préserve la cohérence des quantités
         Livre currentBook = existingBook.get();
         int qtyDiff = livre.getQuantite() - currentBook.getQuantite();
-        livre.setQuantite_disponible(currentBook.getQuantite_disponible() + qtyDiff);
+        livre.setQuantiteDisponible(currentBook.getQuantiteDisponible() + qtyDiff);
 
         livre.setId(id);
         Livre updatedBook = livreService.saveBook(livre);
