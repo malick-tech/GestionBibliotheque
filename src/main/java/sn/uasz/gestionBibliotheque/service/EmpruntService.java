@@ -55,7 +55,7 @@ public class EmpruntService {
         emprunt.setLivre(livre);
         emprunt.setMembre(membre);
         emprunt.setDateEmprunt(LocalDate.now());
-        emprunt.setDueDate(LocalDate.now().plusDays(loanDays));
+        emprunt.setDateEcheance(LocalDate.now().plusDays(loanDays));
         emprunt.setEstRetourne(false);
 
         livreService.decreaseAvailableQuantity(livre);

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/libres")
+@RequestMapping("/api/livres")
 public class LivreController {
     private final LivreService livreService;
     private final CategorieService categorieService;
