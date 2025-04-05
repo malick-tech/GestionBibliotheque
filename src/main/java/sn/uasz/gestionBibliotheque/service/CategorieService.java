@@ -25,8 +25,8 @@ public class CategorieService {
         return categorieRepository.findById(id);
     }
 
-    public Optional<Categorie> getCategoryByName(String name) {
-        return categorieRepository.findByNameIgnoreCase(name);
+    public Optional<Categorie> getCategoryByName(String nom) {
+        return categorieRepository.findByNomIgnoreCase(nom);
     }
 
     public Categorie saveCategory(Categorie categorie) {
