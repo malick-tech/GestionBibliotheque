@@ -12,16 +12,23 @@ import java.util.List;
 
 @Repository
 public interface EmpruntsRepository extends JpaRepository<Emprunts,Long> {
-    List<Emprunts> findByMember(Membre membre);
 
-    List<Emprunts> findByBook(Livre livre);
+    // 1. Recherche par membre
+    List<Emprunts> findByMembre(Membre membre);
 
-    List<Emprunts> findByIsReturnedFalse();
+    // 2. Recherche par livre
+    List<Emprunts> findByLivre(Livre livre);
 
-    @Query("SELECT e FROM Emprunts e WHERE e.estRetourne = false AND l.dueDate < CURRENT_DATE")
+    // 3. Emprunts non retournés
+    List<Emprunts> findByEstRetourneFalse();
+
+    // 4. Emprunts en retard (requête JPQL corrigée)
+    @Query("SELECT e FROM Emprunts e WHERE e.estRetourne = false AND e.dateEcheance < CURRENT_DATE")
     List<Emprunts> findOverdueLoans();
 
-    List<Emprunts> findByMemberAndIsReturnedFalse(Membre membre);
+    // 5. Emprunts non retournés pour un membre
+    List<Emprunts> findByMembreAndEstRetourneFalse(Membre membre);
 
-    List<Emprunts> findByLoanDateBetween(LocalDate startDate, LocalDate endDate);
+    // 6. Emprunts entre deux dates
+    List<Emprunts> findByDateEmpruntBetween(LocalDate startDate, LocalDate endDate);
 }
