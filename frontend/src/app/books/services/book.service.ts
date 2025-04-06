@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Book } from '../models/book.model';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { ExampleDataService } from '../../data/example-data.service';
+
+export interface Book {
+  id: number;
+  title: string;
+  author: string;
+  isbn: string;
+  category: string;
+  publicationYear: number;
+  available: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,21 +20,30 @@ import { environment } from '../../../environments/environment';
 export class BookService {
   private apiUrl = `${environment.apiUrl}/books`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private exampleDataService: ExampleDataService
+  ) {}
 
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.apiUrl);
+    return of(this.exampleDataService.getExampleBooks());
+  }
+
+  getBook(id: number): Observable<Book> {
+    const book = this.exampleDataService.getExampleBooks().find(book => book.id === id);
+    return book ? of(book) : of({} as Book);
   }
 
   addBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(this.apiUrl, book);
+    const newBook = { ...book, id: this.exampleDataService.getExampleBooks().length + 1 };
+    return of(newBook);
   }
 
   updateBook(book: Book): Observable<Book> {
-    return this.http.put<Book>(`${this.apiUrl}/${book.id}`, book);
+    return of(book);
   }
 
   deleteBook(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return of(undefined);
   }
 }

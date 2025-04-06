@@ -1,116 +1,139 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../material.module';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { BookService } from './services/book.service';
-import { Book } from './models/book.model';
+import { Book } from './services/book.service';
+import { MatDialog } from '@angular/material/dialog';
 import { BookDialogComponent } from './components/book-dialog/book-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-books',
   standalone: true,
   imports: [
     CommonModule,
-    MaterialModule,
-    FormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    RouterModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule,
+    FormsModule,
+    MatTooltipModule
   ],
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.scss']
 })
 export class BooksComponent implements OnInit {
-  displayedColumns: string[] = ['title', 'author', 'isbn', 'available', 'actions'];
-  dataSource: MatTableDataSource<Book>;
+  displayedColumns: string[] = ['id', 'title', 'author', 'isbn', 'category', 'publicationYear', 'available', 'actions'];
+  dataSource = new MatTableDataSource<Book>();
   totalBooks = 0;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  searchTerm = '';
 
   constructor(
     private bookService: BookService,
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private snackBar: MatSnackBar
-  ) {
-    this.dataSource = new MatTableDataSource<Book>([]);
-  }
+  ) {}
 
   ngOnInit(): void {
     this.loadBooks();
   }
 
   loadBooks(): void {
-    this.bookService.getBooks().subscribe(
-      books => {
+    this.bookService.getBooks().subscribe({
+      next: (books: Book[]) => {
         this.dataSource.data = books;
         this.totalBooks = books.length;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+      },
+      error: (error) => {
+        this.snackBar.open('Erreur lors du chargement des livres', 'Fermer', {
+          duration: 3000
+        });
       }
-    );
+    });
   }
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
-  openDialog(book?: Book): void {
+  openDialog(): void {
     const dialogRef = this.dialog.open(BookDialogComponent, {
-      width: '400px',
-      data: book || {}
+      width: '600px',
+      data: null
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (book) {
-          this.updateBook(result);
-        } else {
-          this.addBook(result);
-        }
+        this.bookService.addBook(result).subscribe({
+          next: () => {
+            this.loadBooks();
+            this.snackBar.open('Livre ajouté avec succès', 'Fermer', {
+              duration: 3000
+            });
+          },
+          error: (error) => {
+            this.snackBar.open('Erreur lors de l\'ajout du livre', 'Fermer', {
+              duration: 3000
+            });
+          }
+        });
       }
     });
   }
 
-  addBook(book: Book): void {
-    this.bookService.addBook(book).subscribe(
-      () => {
-        this.loadBooks();
-        this.snackBar.open('Livre ajouté avec succès', 'Fermer', { duration: 3000 });
-      }
-    );
-  }
+  editBook(book: Book): void {
+    const dialogRef = this.dialog.open(BookDialogComponent, {
+      width: '600px',
+      data: book
+    });
 
-  updateBook(book: Book): void {
-    this.bookService.updateBook(book).subscribe(
-      () => {
-        this.loadBooks();
-        this.snackBar.open('Livre mis à jour avec succès', 'Fermer', { duration: 3000 });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.bookService.updateBook(result).subscribe({
+          next: () => {
+            this.loadBooks();
+            this.snackBar.open('Livre mis à jour avec succès', 'Fermer', {
+              duration: 3000
+            });
+          },
+          error: (error) => {
+            this.snackBar.open('Erreur lors de la mise à jour du livre', 'Fermer', {
+              duration: 3000
+            });
+          }
+        });
       }
-    );
+    });
   }
 
   deleteBook(id: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce livre ?')) {
-      this.bookService.deleteBook(id).subscribe(
-        () => {
+      this.bookService.deleteBook(id).subscribe({
+        next: () => {
           this.loadBooks();
-          this.snackBar.open('Livre supprimé avec succès', 'Fermer', { duration: 3000 });
+          this.snackBar.open('Livre supprimé avec succès', 'Fermer', {
+            duration: 3000
+          });
+        },
+        error: (error) => {
+          this.snackBar.open('Erreur lors de la suppression du livre', 'Fermer', {
+            duration: 3000
+          });
         }
-      );
+      });
     }
   }
 }

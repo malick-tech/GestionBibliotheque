@@ -1,42 +1,45 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { Category } from '../models/category.model';
+import { ExampleDataService } from '../../data/example-data.service';
+
+export interface Category {
+  id: number;
+  name: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = `${environment.apiUrl}/api/categories`;
+  constructor(
+    private http: HttpClient,
+    private exampleDataService: ExampleDataService
+  ) {}
 
-  constructor(private http: HttpClient) {}
-
-  getCategories(page: number = 0, size: number = 10, search?: string): Observable<any> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-    
-    if (search) {
-      params = params.set('search', search);
-    }
-
-    return this.http.get<any>(this.apiUrl, { params });
+  getCategories(pageIndex: number = 0, pageSize: number = 10): Observable<{ categories: Category[], total: number }> {
+    const categories = this.exampleDataService.getExampleCategories();
+    const total = categories.length;
+    const pagedCategories = categories.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+    return of({ categories: pagedCategories, total });
   }
 
-  getCategoryById(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}/${id}`);
+  getCategory(id: number): Observable<Category> {
+    const category = this.exampleDataService.getExampleCategories().find(cat => cat.id === id);
+    return category ? of(category) : of({} as Category);
   }
 
-  createCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(this.apiUrl, category);
+  addCategory(category: Category): Observable<Category> {
+    const newCategory = { ...category, id: this.exampleDataService.getExampleCategories().length + 1 };
+    return of(newCategory);
   }
 
-  updateCategory(id: number, category: Category): Observable<Category> {
-    return this.http.put<Category>(`${this.apiUrl}/${id}`, category);
+  updateCategory(category: Category): Observable<Category> {
+    return of(category);
   }
 
   deleteCategory(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return of(undefined);
   }
 }
