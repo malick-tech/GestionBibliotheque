@@ -1,0 +1,62 @@
+<div class="categories-container">
+  <div class="header">
+    <h1>Gestion des Catégories</h1>
+    <button mat-raised-button color="primary" (click)="openCategoryDialog()">
+      <mat-icon>add</mat-icon>
+      Ajouter une catégorie
+    </button>
+  </div>
+
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Rechercher</mat-label>
+    <input matInput [(ngModel)]="searchTerm" (keyup)="applyFilter($event)" placeholder="Nom">
+    <button mat-icon-button matSuffix *ngIf="searchTerm" (click)="searchTerm=''; applyFilter($event)">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div class="mat-elevation-z8 table-container">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.id}} </mat-cell>
+      </ng-container>
+
+      <!-- Nom Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nom </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button color="primary" (click)="editCategory(row)" matTooltip="Modifier">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteCategory(row.id)" matTooltip="Supprimer">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="3">Aucune catégorie ne correspond à la recherche "{{searchTerm}}"</td>
+      </tr>
+    </mat-table>
+
+    <mat-paginator
+      [length]="totalCategories"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPageChange($event)"
+      aria-label="Sélectionner la page">
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+.categories-container {
+  padding: 20px;
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+  }
+
+  .search-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .table-container {
+    border-radius: 8px;
+    overflow: hidden;
+
+    table {
+      width: 100%;
+    }
+
+    .mat-column-actions {
+      width: 100px;
+      text-align: right;
+    }
+
+    .no-data {
+      padding: 20px;
+      text-align: center;
+      color: rgba(0, 0, 0, 0.6);
+
+      mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .success-snackbar {
+    background: #4caf50;
+    color: white;
+  }
+
+  .error-snackbar {
+    background: #f44336;
+    color: white;
+  }
+}

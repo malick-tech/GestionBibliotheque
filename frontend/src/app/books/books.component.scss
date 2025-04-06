@@ -1,0 +1,57 @@
+.books-container {
+  padding: 20px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  mat-form-field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .mat-elevation-z8 {
+    overflow: auto;
+
+    table {
+      width: 100%;
+
+      .mat-column-actions {
+        width: 100px;
+        text-align: center;
+      }
+
+      .mat-column-available {
+        width: 100px;
+        text-align: center;
+
+        .available {
+          color: #4caf50;
+        }
+
+        .unavailable {
+          color: #f44336;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .success-snackbar {
+    background: #4caf50;
+    color: white;
+  }
+
+  .error-snackbar {
+    background: #f44336;
+    color: white;
+  }
+}

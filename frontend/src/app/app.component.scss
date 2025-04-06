@@ -1,0 +1,91 @@
+/* Styles spécifiques au composant */
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+mat-sidenav-container {
+  flex: 1;
+  margin-top: 64px; // height of toolbar
+
+  mat-sidenav {
+    width: 250px;
+    padding: 16px;
+    background-color: #fafafa;
+  }
+
+  mat-sidenav-content {
+    .content {
+      padding: 20px;
+    }
+  }
+}
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+nav {
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+main {
+  padding: 2rem;
+}
+
+mat-nav-list {
+  a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    mat-icon {
+      margin-right: 8px;
+    }
+  }
+}
+
+.active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.custom-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  z-index: 100;
+
+  .footer-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+mat-sidenav {
+  width: 250px;
+}
