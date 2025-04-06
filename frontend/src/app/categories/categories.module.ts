@@ -1,14 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { CategoriesRoutingModule } from './categories-routing.module';
-
+import { RouterModule } from '@angular/router';
+import { CATEGORIES_ROUTES } from './categories.routes';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    CategoriesRoutingModule
-  ]
+  imports: [RouterModule.forChild(CATEGORIES_ROUTES)],
+  exports: [RouterModule]
 })
 export class CategoriesModule { }

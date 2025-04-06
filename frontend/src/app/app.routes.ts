@@ -1,11 +1,8 @@
 import { Routes } from '@angular/router';
-import { AuthModule } from './auth/auth.module';
-import { CategoriesModule } from './categories/categories.module';
-import { BooksModule } from './books/books.module';
-import { MembersModule } from './members/members.module';
-import { LoansModule } from './loans/loans.module';
-import { AdminModule } from './admin/admin.module';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { BooksComponent } from './books/books.component';
+import { MemberListComponent } from './members/components/member-list/member-list.component';
+import { LoanListComponent } from './loans/components/loan-list/loan-list.component';
 
 export const routes: Routes = [
   {
@@ -13,23 +10,23 @@ export const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: 'categories',
-    loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'books',
-    loadChildren: () => import('./books/books.module').then(m => m.BooksModule),
+    component: BooksComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'members',
-    loadChildren: () => import('./members/members.module').then(m => m.MembersModule),
+    component: MemberListComponent,
     canActivate: [AuthGuard]
   },
   {
     path: 'loans',
-    loadChildren: () => import('./loans/loans.module').then(m => m.LoansModule),
+    component: LoanListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'categories',
+    loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule),
     canActivate: [AuthGuard]
   },
   {
@@ -40,6 +37,6 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'auth'
+    redirectTo: 'books'
   }
 ];

@@ -1,41 +1,47 @@
 import { Component, ViewChild } from '@angular/core';
-import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from './material.module';
-import { MatSidenav } from '@angular/material/sidenav';
 import { AuthService } from './auth/services/auth.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
-    RouterLink,
-    MaterialModule
-  ]
+    RouterModule,
+    MaterialModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
+  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   @ViewChild('sidenav') sidenav!: MatSidenav;
-  title = 'Gestion de Bibliothèque';
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService) {}
 
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/auth/login']);
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
   }
 
-  toggleSidenav(): void {
-    this.sidenav?.toggle();
+  logout(): void {
+    this.authService.logout();
   }
 }

@@ -21,14 +21,20 @@ export class AuthService {
   private apiUrl = 'http://localhost:8080/api';
   private tokenKey = 'auth_token';
   private userKey = 'current_user';
+  private rolesKey = 'roles';
   
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
+  private userRoles = new BehaviorSubject<string[]>([]);
 
   constructor(private http: HttpClient) {
     const storedUser = localStorage.getItem(this.userKey);
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser ? JSON.parse(storedUser) : null);
     this.currentUser$ = this.currentUserSubject.asObservable();
+    const storedRoles = localStorage.getItem(this.rolesKey);
+    if (storedRoles) {
+      this.userRoles.next(JSON.parse(storedRoles));
+    }
   }
 
   public get currentUserValue(): User | null {
@@ -49,6 +55,8 @@ export class AuthService {
         localStorage.setItem(this.tokenKey, response.token);
         localStorage.setItem(this.userKey, JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
+        localStorage.setItem(this.rolesKey, JSON.stringify(['USER']));
+        this.userRoles.next(['USER']);
       })
     );
   }
@@ -67,6 +75,8 @@ export class AuthService {
         localStorage.setItem(this.tokenKey, response.token);
         localStorage.setItem(this.userKey, JSON.stringify(response.user));
         this.currentUserSubject.next(response.user);
+        localStorage.setItem(this.rolesKey, JSON.stringify(['USER']));
+        this.userRoles.next(['USER']);
       })
     );
   }
@@ -74,11 +84,17 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.userKey);
+    localStorage.removeItem(this.rolesKey);
     this.currentUserSubject.next(null);
+    this.userRoles.next([]);
   }
 
   isAuthenticated(): boolean {
     return !!this.currentUserValue;
+  }
+
+  isAdmin(): boolean {
+    return this.userRoles.value.includes('ADMIN');
   }
 
   getToken(): string | null {

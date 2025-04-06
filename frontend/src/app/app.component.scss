@@ -1,22 +1,54 @@
 /* Styles spécifiques au composant */
-mat-sidenav-container {
+:host {
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 }
 
-mat-sidenav {
-  width: 250px;
-  padding: 16px;
-  background-color: #fafafa;
+mat-sidenav-container {
+  flex: 1;
+  margin-top: 64px; // height of toolbar
+
+  mat-sidenav {
+    width: 250px;
+    padding: 16px;
+    background-color: #fafafa;
+  }
+
+  mat-sidenav-content {
+    .content {
+      padding: 20px;
+    }
+  }
 }
 
-.toolbar-spacer {
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.spacer {
   flex: 1 1 auto;
 }
 
-main {
-  padding: 20px;
+.sidenav-container {
   height: calc(100vh - 64px);
-  overflow-y: auto;
+}
+
+nav {
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+main {
+  padding: 2rem;
 }
 
 mat-nav-list {
@@ -31,14 +63,8 @@ mat-nav-list {
   }
 }
 
-mat-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
 .active {
-  background-color: rgba(0, 0, 0, 0.04);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .custom-footer {
@@ -58,4 +84,8 @@ mat-toolbar {
     align-items: center;
     width: 100%;
   }
+}
+
+mat-sidenav {
+  width: 250px;
 }
